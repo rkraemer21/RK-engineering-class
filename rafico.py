@@ -125,7 +125,7 @@ def lostsands():
     print("You find yourself in a mysteriously pristine landscape.")
     print("The sand here is tan unlike the rest of the gray desert.")
     print("There seems to be nothing on the horizon, even though you just came from somewhere.")
-    print("There's an oasis in front of you, and indecision everywhere else.  Where do you go?")
+    print("There's an oasis a long ways in front of you, and indecision everywhere else.  Where do you go?")
 
 
     lsplchold = "That's odd. Didn't you just come from here? Try something else."
@@ -140,7 +140,7 @@ def lostsands():
 # currently it just takes you to the start if you get out, or tells you that it will go to the Oasis, a future spot.
 
     while True:
-        choice = input(p)
+        choice = input("\nnorth / south / east / west / oasis > ")
         if "oasis" in choice or "forward" in choice:
             if not prime3 == True:
                 print(lsplchold)

@@ -1,0 +1,5 @@
+#!/bin/bash
+#check
+
+some = 4
+print(5-some)
