@@ -17,6 +17,6 @@ def printline(line, encoding, errors):
 
     print(rawbytes,"<===>", cookstring, nlang)
 
-languages = open("languages.txt", encoding="utf-8")
+languages = open(input(), encoding="utf-8")
 
 main(languages, iencoding, error)

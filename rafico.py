@@ -6,6 +6,7 @@ plchold = 'TBD'
 d = '\n---------------------------------------------------------------------------------------\n' # for nicer UI
 
 #variables that save the win status of a fight in each area so you can exit and reenter without it respawning.  hwin currently unused.
+win = None
 gdwin = False
 hwin = False
 
@@ -40,18 +41,55 @@ def start():
 #------------------------------------------------------------
 
 def hut():
+    global hwin
+    global win
     status(stats)
-    print("You encounter a bad guy.")
+
+    if hwin == False:
+        print("There's an old hut in front of you, nestled into a rocky hill.")
+        print("A monster comes out and attacks you!")
     
-    dmg = -4
-    ehp = 20
-    fight(dmg, ehp) # see bottom for fight sequence
-    
+        dmg = -4
+        ehp = 20
+        fight(dmg, ehp) # see bottom for fight sequence
+    elif hwin == True:
+        print("You stand outside the hut. Do you go inside, south, or west?")
+        choice = input(p)
+
+        if "in" in choice or "hut" in choice:
+            inHut()
+        elif choice == "south":
+            start()
+        elif choice == "west":
+            print("TBD Shifting plains")
+
     if win == True:
-        print("You made it into the hut.") # current dead-end, will be expanded
-    if win == False:
+        hwin = True
+        inHut()
+    elif win == False:
         start() # this is if you flee the fight, you just go back to start
         
+def inHut():
+    status(stats)
+    print("You made it into the hut. It's in a state of abandon.")
+    print("You can sit on the bed, look around, or just leave.")
+    global weapon
+
+    choice = input(p)
+    print(d)
+
+    if "sit" in choice or "bed" in choice:
+        print("You sit down and the bed breaks under you. Something shines under the rubble.")
+        print("It's a sword.  You pick it up.")
+        rwrd = 30
+        
+        if rwrd > weapon:
+            print("It looks stronger than your current weapon.  You take it.")
+            weapon = rwrd
+            status(stats)
+        elif rwrd < weapon:
+            print("It looks weaker than your current weapon.  You put it back down.")
+
 #------------------------------------------------------------
         
 def graydesert():
@@ -213,44 +251,48 @@ def fight(dmg, ehp):
     elif "flee" in choice or "Flee" in choice:
         print(f"{d}\nYou fled.")
         win = False
+
+    return win
   
 #------------------------------------------------------------
 
 def fighthard(dmg, ehp, rwrd):
-        global win
-        global weapon
-        for x in range(1):
-            weapon = random.randint(weapon-2, weapon+3)  #random damage per hit from you, in your favor.
+    global win
+    global weapon
+    for x in range(1):
+        weapon = random.randint(weapon-2, weapon+3)  #random damage per hit from you, in your favor.
  
-        for x in range(1):
-            dmg = random.randint(dmg-5, dmg+5) # random damage per hit from the enemy, in your favor.
-        life(dmg) #calls life function, which is how damage is done
+    for x in range(1):
+        dmg = random.randint(dmg-5, dmg+5) # random damage per hit from the enemy, in your favor.
+    life(dmg) #calls life function, which is how damage is done
  
-        choice = input("\nHit or flee? > ")
-        if "hit" in choice or "Hit" in choice:
-            ehp -= weapon
-            if ehp <= 0:
-                print("You won.")
-                win = True
-                if weapon < rwrd:   # see graydesert() for where reward is defined.  You get it if you win and it's higher than current weapon
-                   weapon = rwrd
-                   print("You looted a stronger weapon.")
-            else:
-                print("KG - FH") # KG - FH is just a placeholder test thing so i know everything is working
-                fighthard(dmg, ehp, rwrd)
-        elif "flee" in choice or "Flee" in choice:
-            for x in range(1):
-                y = random.randint(1, 10) # in a hard fight, small chance of actually fleeing.
-            if y == 2 or y == 6:
-                print("Got away safely.")
-                win = False
-            else:
-                print("You couldn't get away.")
-                fighthard(dmg, ehp, rwrd)
+    choice = input("\nHit or flee? > ")
+    if "hit" in choice or "Hit" in choice:
+        ehp -= weapon
+        if ehp <= 0:
+            print("You won.")
+            win = True
+            if weapon < rwrd:   # see graydesert() for where reward is defined.  You get it if you win and it's higher than current weapon
+                weapon = rwrd
+                print("You looted a stronger weapon.")
         else:
-            print("You hesitated in thought and got hit again.") # no forgiveness.
+            print("KG - FH") # KG - FH is just a placeholder test thing so i know everything is working
             fighthard(dmg, ehp, rwrd)
-            
+    elif "flee" in choice or "Flee" in choice:
+        for x in range(1):
+            y = random.randint(1, 10) # in a hard fight, small chance of actually fleeing.
+        if y == 2 or y == 6:
+            print("Got away safely.")
+            win = False
+        else:
+            print("You couldn't get away.")
+            fighthard(dmg, ehp, rwrd)
+    else:
+        print("You hesitated in thought and got hit again.") # no forgiveness.
+        fighthard(dmg, ehp, rwrd)
+
+    return win      
+           
 #------------------------------------------------------------
 
 def life(dmg):
