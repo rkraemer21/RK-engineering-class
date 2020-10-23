@@ -14,9 +14,19 @@ class day10handler {
 
     public char[][] fileHandler() throws FileNotFoundException {
         File inputFile = new File(inpFile);
-        Scanner readingFile = new Scanner(inputFile);
-        char[][] finalArray = new char[21][21];
+        Scanner readingFile1 = new Scanner(inputFile);
+	ArrayList<char[]> dummy = new ArrayList<char[]>();
+	int len = 0;
+
+        while (readingFile1.hasNextLine()) {
+	    char[] charFile = readingFile1.nextLine().toCharArray();
+	    dummy.add(charFile);
+	    len = charFile.length;
+	}
+
+        char[][] finalArray = new char[len][dummy.size()];
 	int i = 0;
+	Scanner readingFile = new Scanner(inputFile);
 
 	while (readingFile.hasNextLine()) {
 	    char[] charFile = readingFile.nextLine().toCharArray();

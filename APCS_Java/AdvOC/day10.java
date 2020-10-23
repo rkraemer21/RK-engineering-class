@@ -25,7 +25,7 @@ class day10 {
 		    meter(iRow, iSpace);
 		    iSpace ++;
 		} else {
-		    System.out.println("HHHHHHH");
+		    iSpace ++;
 		}
 	    }
 	    iRow ++;
@@ -36,29 +36,33 @@ class day10 {
        double checkRow = 0;
        ArrayList<Double> slopes = new ArrayList<Double>();
        for (char[] row : starter) {
+	   System.out.println("checkRow: " + checkRow);
            double checkSpace = 0;
            for (char space : row) {
 	       if (space != '#') {
-	           checkSpace ++;
+		   System.out.println("N-P");
 	       } else if (space == '#') {
 	           double rise = iRow - checkRow;
 		   double run = iSpace - checkSpace;
 	           double slope = Math.atan2(run, rise);
 		   if (rise == 0.0 && run == 0.0) {
-		       continue;
-		   } else if (slope == 0 && slopes.indexOf(slope) != -1) {
+		       System.out.println("N-Z");
+		   /*} else if (slope == 0.0 && slopes.indexOf(slope) != -1) {
 		       slopes.add(slope);
+		       System.out.println("Y-Z");*/
 		   } else if (slopes.indexOf(slope) == -1) {
 	               slopes.add(slope);
+		       System.out.println("Y-S");
         	   } else if (slopes.indexOf(slope) != -1) {
-		       continue;
+		       System.out.println("N-A");
 		   }
-	           checkSpace ++;
 	       }
+	       System.out.println("checkSpace: " + checkSpace);
+	       checkSpace ++;
 	   }
            checkRow ++;
        }
-       System.out.println(slopes.size() + "~" + iRow + "-" + iSpace);
+       System.out.println(slopes.size() + "~" + iRow + "-" + iSpace + "-----------------");
  //      System.out.println(slopes.toString());
        tot.add(slopes.size());
     }
