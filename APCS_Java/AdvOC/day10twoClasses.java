@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Collections;
 
-public class day10two {
-
+public class day10twoClasses extends day10two() {
+/*
     char[][] starter;
     ArrayList<double[]> tot;
 
@@ -66,7 +66,7 @@ public class day10two {
        tot.add(point);
        return slopes;
     }
-
+*/
     public void max(ArrayList<Double> theSlopes) {
         double maximum = 0;
 	double[] base = new double[3];
@@ -111,11 +111,12 @@ public class day10two {
 	}
 	return angles;
     }
-*/
+
 
     public static void main(String[] args) throws FileNotFoundException {
-        day10two doer = new day10two(args);
+        day10twoClasses doer = new day10twoClasses(args);
         ArrayList<Double> theSlopes = doer.finder();
 	doer.max(theSlopes);
     }
+*/
 }
